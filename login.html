@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .hidden {
+            display: none;
+        }
+        h2#title {
+            color: grey;
+            padding: 10px;
+            margin: 0;
+        }
+    </style>
+    <h2 id="title">Lise Meitner Gymansium</h2>
+    <h1>Login</h1>
+    <p><h3>Gebe hier den Authetifizierungscode ein:</h3></p>
+    <input type="password" id="pwrd">
+    <p><h3 class="hidden" id="invalid">Falscher Code!</h3></p>
+    <p><button id="weiter" class="hidden" onclick="location.href='main.html'">Zur Homepage</button></p>
+    <script>
+        const korrektesPasswort = "test123";
+        const eingabeFeld = document.getElementById("pwrd");
+        const fehlermeldung = document.getElementById("invalid");
+        const weiterButton = document.getElementById("weiter");
+
+        eingabeFeld.addEventListener("input", () => {
+            const eingegeben = eingabeFeld.value;
+
+            if (eingegeben === korrektesPasswort) {
+                fehlermeldung.classList.add("hidden");
+                weiterButton.classList.remove("hidden");
+            } else {
+                fehlermeldung.classList.remove("hidden");
+                weiterButton.classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>

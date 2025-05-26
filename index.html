@@ -1,0 +1,160 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .hidden {
+            display: none;
+        }
+        h2#title {
+            color: grey;
+            padding: 10px;
+            margin: 0;
+        }
+        h2#login {
+            padding: 0;
+            margin: 0;
+        }
+        h2#login a {
+            float: right;
+            color: grey;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0;
+        }
+        h2#login a:hover {
+            color: rgb(79, 78, 78);
+        }
+        div.container {
+            text-align: center;
+            background-color: rgba(17, 79, 17, 0.884);
+            padding: 0;
+            margin: 0;
+        }
+        ul#main {
+            padding: 0;
+            margin: 0;
+        }
+        ul#main li {
+            display: inline-block;
+            text-align: center;
+            padding: 15px;
+            margin: 0;
+        }
+        ul#main li a {
+            color: rgb(96, 186, 156);
+            text-align: center;
+            padding: 15px;
+        }
+        ul#main li a:hover {
+            color: aqua;
+        }
+    </style>
+    
+    <h2 id="login"><a href="#anmelden">Anmelden</a></h2>
+    <h2 id="title">Lise Meitner Gymansium</h2>
+    <!--Wie es scheint ist das Menu nicht von Nöten, ich habs jetzt aber erst mal drin gelassen-->
+    <div class="container">
+        <ul id="main">
+            <li><a href="#fach">Fächer</a></li>
+            <li><a href="#lehrer">Lehrer</a></li>
+        </ul>
+    </div>
+    
+    <h2>Über diese Seite</h2>
+    <p>
+       Diese Seite wurde von Schülern des LMGs entworfen und beinhaltet sämtliche alte Klassenarbeiten von Lehrern. 
+       Sofern man eine Klassenarbeit der Website hinzufügen will, muss man sich registrieren mit einem Code den man 
+       nur an der Schule bekommt (anzusprechenden Schüler: )
+    </p>
+    <h3>Klasse:</h3>
+    <p>
+        <label><input type="radio" name="klasse" class="klasse" value="k5">5</label>
+        <label><input type="radio" name="klasse" class="klasse" value="k6">6</label>
+        <label><input type="radio" name="klasse" class="klasse" value="k7">7</label>
+        <label><input type="radio" name="klasse" class="klasse" value="k8">8</label>
+        <label><input type="radio" name="klasse" class="klasse" value="k9">9</label>
+        <label><input type="radio" name="klasse" class="klasse" value="k10">10</label>
+    </p>
+
+    <h3>Fach:</h3>
+    <p>
+        <label><input type="checkbox" class="fach" value="mat">Mathe</label>
+        <label><input type="checkbox" class="fach" value="deu">Deutsch</label>
+        <label><input type="checkbox" class="fach" value="eng">Englisch</label>
+        <label><input type="checkbox" class="fach" value="lat">Latein</label>
+        <label><input type="checkbox" class="fach" value="fra">Franz</label>
+        <label><input type="checkbox" class="fach" value="spa">Spanisch</label>
+        <label><input type="checkbox" class="fach" value="nwt">NWT</label>
+        <label><input type="checkbox" class="fach" value="phy">Physik</label>
+        <label><input type="checkbox" class="fach" value="che">Chemie</label>
+        <label><input type="checkbox" class="fach" value="bio">Bio</label>
+        <label><input type="checkbox" class="fach" value="geo">Geo</label>
+        <label><input type="checkbox" class="fach" value="wbs">WBS</label>
+        <label><input type="checkbox" class="fach" value="gk">GK</label>
+        <label><input type="checkbox" class="fach" value="gesch">Geschichte</label>
+    </p>
+
+    <h1>UPLOAD YOUR FILES HERE!</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <label for="document">Document</label>
+        <input type="file" name="document">
+        <button>Submit</button>
+    </form>
+
+    <h3>Arbeiten:</h3>
+    <div id="texte">
+        <p class="k5 mat hidden" name="arbeit"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
+        <p class="k5 deu hidden" name="arbeit">Test 2</p>
+        <p class="k5 eng hidden" name="arbeit">Test 3</p>
+        <p class="k10 mat hidden" name="arbeit">Test 4</p>
+        <p class="k10 deu hidden" name="arbeit">Test 5</p>
+        <p class="k6 fra hidden" name="arbeit">Test 6</p>
+    </div>
+
+    <script>
+        const klasseRadios = document.querySelectorAll('.klasse');
+        const fachCheckboxes = document.querySelectorAll('.fach');
+        const texte = document.querySelectorAll('#texte p');
+
+        let aktiveKlasse = null;
+
+        // Klassen-Filter (erster Schritt)
+        klasseRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+            aktiveKlasse = radio.value;
+            updateAnzeige();
+            });
+        });
+
+        // Fächer-Filter (zweiter Schritt)
+        fachCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateAnzeige);
+        });
+        
+        function updateAnzeige() {
+            const aktiveFaecher = Array.from(fachCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        texte.forEach(p => {
+            const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
+            const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
+
+            if (passtZurKlasse && passtZuFach) {
+                p.classList.remove('hidden');
+            } else {
+                p.classList.add('hidden');
+            }
+        });
+        }
+  </script>
+</body>
+</html>
