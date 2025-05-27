@@ -6,6 +6,12 @@
         .hidden {
             display: none;
         }
+        .beschreibung {
+            font-style: italic;
+            color: darkgray;
+            margin-top: 2px;
+            margin-bottom: 15px;
+	    }
         h2#title {
             color: grey;
             padding: 10px;
