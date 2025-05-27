@@ -4,9 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMG Klassenarbeiten</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.css">
 </head>
 <body>
-    <h2 id="login"><a href="#anmelden">Anmelden</a></h2>
+
     <h2 id="title">Lise Meitner Gymansium</h2>
     <!--Wie es scheint ist das Menu nicht von Nöten, ich habs jetzt aber erst mal drin gelassen-->
     <div class="container">
@@ -50,29 +51,33 @@
         <label><input type="checkbox" class="fach" value="gesch">Geschichte</label>
     </p>
 
-    <h1>UPLOAD YOUR FILES HERE!</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        <label for="document">Document</label>
-        <input type="file" name="document">
-        <button>Submit</button>
-    </form>
+    <h1>Dateien Hochladen</h1>
+   <uc-config ctx-name="my-uploader" source-list="local, camera, gdrive" cloud-image-editor-auto-open="true" pubkey="39df1b37835506464216"></uc-config>
+<uc-file-uploader-regular ctx-name="my-uploader" class="uc-light uc-gray"></uc-file-uploader-regular>
 
     <h3>Arbeiten:</h3>
     <div id="texte">
-        <p class="k5 mat hidden" name="arbeit"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
-        <p class="k5 deu hidden" name="arbeit">Test 2</p>
-        <p class="k5 eng hidden" name="arbeit">Test 3</p>
-        <p class="k10 mat hidden" name="arbeit">Test 4</p>
-        <p class="k10 deu hidden" name="arbeit">Test 5</p>
-        <p class="k6 fra hidden" name="arbeit">Test 6</p>
+        <p class="k5 mat hidden" name="arbeit" data-author="piller"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
+        <p class="k5 deu hidden" name="arbeit" data-author="hohn">Test 2</p>
+        <p class="k5 eng hidden" name="arbeit" data-author="bauer1">Test 3</p>
+        <p class="k10 mat hidden" name="arbeit" data-author="bauer2">Test 4</p>
+        <p class="k10 deu hidden" name="arbeit" data-author="piller">Test 5</p>
+        <p class="k6 fra hidden" name="arbeit" data-author="bauer1">Test 6</p>
     </div>
-
+    <script type="module">import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js'; UC.defineComponents(UC);</script>
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');
         const texte = document.querySelectorAll('#texte p');
 
         let aktiveKlasse = null;
+
+        const autorMap = {
+            "piller": "Herr Piller",
+            "hohn": "Frau Hohn",
+            "bauer1": "Herr Bauer (der Alte)",
+            "bauer2": "Herr Bauer (der Neue)"
+        }
 
         // Klassen-Filter (erster Schritt)
         klasseRadios.forEach(radio => {
@@ -92,16 +97,25 @@
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
-        texte.forEach(p => {
-            const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
-            const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
+            texte.forEach(p => {
+                const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
+                const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
+                const nextElem = p.nextElementSibling;
+                if (nextElem && nextElem.classList.contains("beschreibung")) {
+                    nextElem.remove();
+                }
 
             if (passtZurKlasse && passtZuFach) {
                 p.classList.remove('hidden');
-            } else {
+                const beschreibung = document.createElement("p");
+                beschreibung.classList.add("beschreibung");
+                beschreibung.textContent = "Lehrer: " + (autorMap[p.getAttribute("data-author")] || "unbekannt");
+                p.insertAdjacentElement("afterend", beschreibung);
+            } 
+            else {
                 p.classList.add('hidden');
             }
-        });
+            });
         }
   </script>
 </body>
