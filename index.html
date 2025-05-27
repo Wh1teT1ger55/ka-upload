@@ -13,6 +13,12 @@
         .hidden {
             display: none;
         }
+        .beschreibung {
+            font-style: italic;
+            color: darkgray;
+            margin-top: 2px;
+            margin-bottom: 15px;
+}
         h2#title {
             color: grey;
             padding: 10px;
@@ -96,12 +102,12 @@
 
     <h3>Arbeiten:</h3>
     <div id="texte">
-        <p class="k5 mat hidden" name="arbeit"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
-        <p class="k5 deu hidden" name="arbeit">Test 2</p>
-        <p class="k5 eng hidden" name="arbeit">Test 3</p>
-        <p class="k10 mat hidden" name="arbeit">Test 4</p>
-        <p class="k10 deu hidden" name="arbeit">Test 5</p>
-        <p class="k6 fra hidden" name="arbeit">Test 6</p>
+        <p class="k5 mat hidden" name="arbeit" data-author="piller"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
+        <p class="k5 deu hidden" name="arbeit" data-author="hohn">Test 2</p>
+        <p class="k5 eng hidden" name="arbeit" data-author="bauer1">Test 3</p>
+        <p class="k10 mat hidden" name="arbeit" data-author="bauer2">Test 4</p>
+        <p class="k10 deu hidden" name="arbeit" data-author="piller">Test 5</p>
+        <p class="k6 fra hidden" name="arbeit" data-author="bauer1">Test 6</p>
     </div>
 
     <script>
@@ -110,6 +116,13 @@
         const texte = document.querySelectorAll('#texte p');
 
         let aktiveKlasse = null;
+
+        const autorMap = {
+            "piller": "Herr Piller",
+            "hohn": "Frau Hohn",
+            "bauer1": "Herr Bauer (der Alte)",
+            "bauer2": "Herr Bauer (der Neue)"
+        }
 
         // Klassen-Filter (erster Schritt)
         klasseRadios.forEach(radio => {
@@ -120,7 +133,6 @@
         });
 
         // Fächer-Filter (zweiter Schritt)
-        //Test
         fachCheckboxes.forEach(cb => {
             cb.addEventListener('change', updateAnzeige);
         });
@@ -130,16 +142,25 @@
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
-        texte.forEach(p => {
-            const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
-            const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
+            texte.forEach(p => {
+                const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
+                const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
+                const nextElem = p.nextElementSibling;
+                if (nextElem && nextElem.classList.contains("beschreibung")) {
+                    nextElem.remove();
+                }
 
             if (passtZurKlasse && passtZuFach) {
                 p.classList.remove('hidden');
-            } else {
+                const beschreibung = document.createElement("p");
+                beschreibung.classList.add("beschreibung");
+                beschreibung.textContent = "Lehrer: " + (autorMap[p.getAttribute("data-author")] || "unbekannt");
+                p.insertAdjacentElement("afterend", beschreibung);
+            } 
+            else {
                 p.classList.add('hidden');
             }
-        });
+            });
         }
   </script>
 </body>
