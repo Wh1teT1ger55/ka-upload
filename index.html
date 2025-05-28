@@ -16,11 +16,13 @@
         </ul>
     </div>
     
+    <section id="main-content">
     <h2>Über diese Seite</h2>
     <p>
-       Diese Seite wurde von Schülern des LMGs entworfen und beinhaltet sämtliche alte Klassenarbeiten von Lehrern. 
-       Sofern man eine Klassenarbeit der Website hinzufügen will, muss man sich registrieren mit einem Code den man 
-       nur an der Schule bekommt (anzusprechenden Schüler: )
+        Diese Seite wurde von Schülern des LMGs entworfen und beinhaltet sämtliche alte Klassenarbeiten von Lehrern. 
+       Manche Arbeiten werden von Lehrern mehrmals verwendet, darum können diese teilweise hilfreich für kommende Arbeiten sein, 
+       wobei nicht garantiert werden kann, dass die Arbeiten auf dieser Website genau so wieder drankommen werden. 
+       Sofern man Schüler des LMGs ist und eine Klassenarbeit zuhause hat, die noch nicht auf der Website zu finden ist, dann kann diese hier hochgeladen werden.
     </p>
     <h3>Klasse:</h3>
     <p>
@@ -62,11 +64,12 @@
         <p class="k5 mat hidden" name="arbeit" data-author="piller"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
         <p class="k5 deu hidden" name="arbeit" data-author="hohn">Test 2</p>
         <p class="k5 eng hidden" name="arbeit" data-author="bauer1">Test 3</p>
-        <p class="k10 mat hidden" name="arbeit" data-author="bauer2">Test 4</p>
-        <p class="k10 deu hidden" name="arbeit" data-author="piller">Test 5</p>
-        <p class="k6 fra hidden" name="arbeit" data-author="bauer1">Test 6</p>
+        <p class="k5 eng hidden" name="arbeit" data-author="bauer1">Test 4</p>
+        <p class="k10 mat hidden" name="arbeit" data-author="bauer2">Test 5</p>
+        <p class="k10 deu hidden" name="arbeit" data-author="piller">Test 6</p>
+        <p class="k6 fra hidden" name="arbeit" data-author="hohn">Test 7</p>
     </div>
-
+    </section>
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');
@@ -74,7 +77,7 @@
 
         let aktiveKlasse = null;
 
-        const autorMap = {
+        const lehrerMap = {
             "piller": "Herr Piller",
             "hohn": "Frau Hohn",
             "bauer1": "Herr Bauer (der Alte)",
@@ -99,24 +102,28 @@
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
+            document.querySelectorAll('.arbeit-wrapper').forEach(el => el.remove());
+
             texte.forEach(p => {
                 const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
                 const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
-                const nextElem = p.nextElementSibling;
-                if (nextElem && nextElem.classList.contains("beschreibung")) {
-                    nextElem.remove();
-                }
-
-            if (passtZurKlasse && passtZuFach) {
-                p.classList.remove('hidden');
-                const beschreibung = document.createElement("p");
-                beschreibung.classList.add("beschreibung");
-                beschreibung.textContent = "Lehrer: " + (autorMap[p.getAttribute("data-author")] || "unbekannt");
-                p.insertAdjacentElement("afterend", beschreibung);
-            } 
-            else {
                 p.classList.add('hidden');
-            }
+
+                if (passtZurKlasse && passtZuFach) {
+                    const wrapper = document.createElement("div");
+                    wrapper.classList.add("arbeit-wrapper");
+
+                    const beschreibung = document.createElement("p");
+                    beschreibung.classList.add("beschreibung");
+                    beschreibung.textContent = "Lehrer: " + (lehrerMap[p.getAttribute("data-author")] || "unbekannt");
+
+                    const clone = p.cloneNode(true);
+                    clone.classList.remove("hidden");
+
+                    wrapper.appendChild(clone);
+                    wrapper.appendChild(beschreibung);
+                    p.parentElement.appendChild(wrapper);
+                } 
             });
         }
   </script>
