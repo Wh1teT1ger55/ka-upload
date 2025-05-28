@@ -3,6 +3,10 @@
             padding: 0;
             margin: 0;
         }
+        section#main-content {
+            margin: 0 15px;
+            padding: 0;
+        }
         .hidden {
             display: none;
         }
@@ -12,6 +16,13 @@
             margin-top: 2px;
             margin-bottom: 15px;
 	    }
+        .arbeit-wrapper {
+            border: 2px solid #270847;
+            padding: 10px;
+            margin: 15px 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
         h2#title {
             color: grey;
             padding: 10px;
