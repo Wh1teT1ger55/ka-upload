@@ -6,15 +6,19 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
     <h2 id="title">Lise Meitner Gymansium</h2>
     <h1>Login</h1>
-    <p><h3>Gebe hier den Authetifizierungscode ein:</h3></p>
+    <p><h3>Gebe hier deinen Usernamen sowie das Passwort ein:</h3></p>
     <input type="text" id="user" placeholder="username">
     <input type="password" id="pwrd" placeholder="password">
     <p><h3 class="hidden" id="invalid">Falsches Passwort oder Username!</h3></p>
     <p><button id="weiter" class="hidden" onclick="location.href='index.html'">Zur Homepage</button></p>
     <script>
-        //Benutzernamen und Passwort müssen später noch irgendwo anders gespeichert werden, damit man die nicht einfach im Quellcode nachschauen kann
         const korrekteUsernames = ["user1", "user2", "user3"];
         const korrektesPasswort = "test123";
 
@@ -23,29 +27,23 @@
         const fehlerPassword = document.getElementById("invalid");
         const weiterButton = document.getElementById("weiter");
 
-        passwordFeld.addEventListener("input", () => {
-            const eingegeben_pswrd = passwordFeld.value;
+        passwordFeld.addEventListener("input", check);
+        userFeld.addEventListener("input", check);
 
-            if (eingegeben_pswrd === korrektesPasswort) {
+        function check() {
+            let eingegeben_pswrd = passwordFeld.value;
+            let eingegeben_user = userFeld.value;
+
+            if (eingegeben_pswrd === korrektesPasswort && korrekteUsernames.includes(eingegeben_user)) {
                 fehlerPassword.classList.add("hidden");
                 weiterButton.classList.remove("hidden");
-            } else {
-                fehlerPassword.classList.remove("hidden");
-                weiterButton.classList.add("hidden");
-            }
-        });
-        userFeld.addEventListener("input", () => {
-            const eingegeben_user = userFeld.value;
-
-            if(eingegeben_user === korrekteUsernames) {
-                fehlerPassword.classList.add("hidden");
-                weiterButton.classList.remove("hidden");
-            }
+            } 
             else {
                 fehlerPassword.classList.remove("hidden");
                 weiterButton.classList.add("hidden");
             }
-        })
+        }
+       
     </script>
 </body>
 </html>
