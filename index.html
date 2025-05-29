@@ -64,7 +64,12 @@
         <p class="k10 deu hidden" name="arbeit" data-author="piller">Test 5</p>
         <p class="k6 fra hidden" name="arbeit" data-author="bauer1">Test 6</p>
     </div>
-    <script type="module">import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js'; UC.defineComponents(UC);</script>
+    <script type="module">import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js'; UC.defineComponents(UC);
+        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+widget.onUploadComplete((info) => {
+  console.log(info.uuid); // UUID hier
+});
+    </script>
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');
