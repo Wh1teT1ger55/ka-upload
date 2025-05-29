@@ -52,8 +52,58 @@
     </p>
 
     <h1>Dateien Hochladen</h1>
-   <uc-config ctx-name="my-uploader" source-list="local, camera, gdrive" cloud-image-editor-auto-open="true" pubkey="39df1b37835506464216"></uc-config>
-<uc-file-uploader-regular ctx-name="my-uploader" class="uc-light uc-gray"></uc-file-uploader-regular>
+    <uc-config
+      ctx-name="my-uploader"
+      pubkey="39df1b37835506464216"
+      multiple
+      multiple-min="1"
+      multiple-max="10"
+      img-only
+    ></uc-config>   
+    <form id="upload-file">
+        <label for="klasse">Klasse:</label><br />
+        <select name="klasse" id="klasse" form="upload-file">
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+        </select>
+        <select name="fach" id="fach">
+            <option value="mat">Mathe</option>
+            <option value="deu">Deutsch</option>
+            <option value="eng">Englisch</option>
+            <option value="lat">Latein</option>
+            <option value="fra">Französisch</option>
+            <option value="spa">Spanisch</option>
+            <option value="nwt">NWT</option>
+            <option value="phy">Physik</option>
+            <option value="che">Chemie</option>
+            <option value="bio">Biologie</option>
+            <option value="geo">Geographie</option>
+            <option value="wbs">Wirtschaft und Recht</option>
+            <option value="gk">Gesellschaftskunde</option>
+            <option value="gesch">Geschichte</option>
+        </select>
+        <select name="lehrer" id="lehrer">
+            <option value="piller">Herr Piller</option>
+            <option value="hohn">Frau Hohn</option>
+            <option value="bauer1">Herr Bauer (der Alte)</option>
+            <option value="bauer2">Herr Bauer (der Neue)</option>
+        </select>
+
+        <uc-file-uploader-regular
+            ctx-name="my-uploader"
+        >
+            <uc-form-input ctx-name="my-uploader"></uc-form-input>
+        </uc-file-uploader-regular>
+        <button type="submit">Submit</button>
+        <code>
+            <pre id="form-output"></pre>
+        </code>
+    </form> 
 
     <h3>Arbeiten:</h3>
     <div id="texte">
@@ -64,11 +114,17 @@
         <p class="k10 deu hidden" name="arbeit" data-author="piller">Test 5</p>
         <p class="k6 fra hidden" name="arbeit" data-author="bauer1">Test 6</p>
     </div>
-    <script type="module">import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js'; UC.defineComponents(UC);
-        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-widget.onUploadComplete((info) => {
-  console.log(info.uuid); // UUID hier
-});
+   <script type="module">
+      import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js";
+      LR.defineComponents(LR);
+      const form = document.querySelector("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const outputEl = document.querySelector("#form-output");
+        outputEl.innerText = JSON.stringify([...formData.entries()], null, 2);
+      });
     </script>
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
