@@ -9,26 +9,43 @@
     <h2 id="title">Lise Meitner Gymansium</h2>
     <h1>Login</h1>
     <p><h3>Gebe hier den Authetifizierungscode ein:</h3></p>
-    <input type="password" id="pwrd">
-    <p><h3 class="hidden" id="invalid">Falscher Code!</h3></p>
-    <p><button id="weiter" class="hidden" onclick="location.href='main.html'">Zur Homepage</button></p>
+    <input type="text" id="user" placeholder="username">
+    <input type="password" id="pwrd" placeholder="password">
+    <p><h3 class="hidden" id="invalid">Falsches Passwort oder Username!</h3></p>
+    <p><button id="weiter" class="hidden" onclick="location.href='index.html'">Zur Homepage</button></p>
     <script>
+        //Benutzernamen und Passwort müssen später noch irgendwo anders gespeichert werden, damit man die nicht einfach im Quellcode nachschauen kann
+        const korrekteUsernames = ["user1", "user2", "user3"];
         const korrektesPasswort = "test123";
-        const eingabeFeld = document.getElementById("pwrd");
-        const fehlermeldung = document.getElementById("invalid");
+
+        const passwordFeld = document.getElementById("pwrd");
+        const userFeld = document.getElementById("user");
+        const fehlerPassword = document.getElementById("invalid");
         const weiterButton = document.getElementById("weiter");
 
-        eingabeFeld.addEventListener("input", () => {
-            const eingegeben = eingabeFeld.value;
+        passwordFeld.addEventListener("input", () => {
+            const eingegeben_pswrd = passwordFeld.value;
 
-            if (eingegeben === korrektesPasswort) {
-                fehlermeldung.classList.add("hidden");
+            if (eingegeben_pswrd === korrektesPasswort) {
+                fehlerPassword.classList.add("hidden");
                 weiterButton.classList.remove("hidden");
             } else {
-                fehlermeldung.classList.remove("hidden");
+                fehlerPassword.classList.remove("hidden");
                 weiterButton.classList.add("hidden");
             }
         });
+        userFeld.addEventListener("input", () => {
+            const eingegeben_user = userFeld.value;
+
+            if(eingegeben_user === korrekteUsernames) {
+                fehlerPassword.classList.add("hidden");
+                weiterButton.classList.remove("hidden");
+            }
+            else {
+                fehlerPassword.classList.remove("hidden");
+                weiterButton.classList.add("hidden");
+            }
+        })
     </script>
 </body>
 </html>
