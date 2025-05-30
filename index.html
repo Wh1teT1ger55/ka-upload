@@ -94,18 +94,20 @@
             <option value="bauer2">Herr Bauer (der Neue)</option>
         </select>
 
-        <uc-file-uploader-regular
-            ctx-name="my-uploader"
-        >
+        <!-- Uploadcare File Uploader -->
+        <uc-file-uploader-regular ctx-name="my-uploader">
             <uc-form-input ctx-name="my-uploader"></uc-form-input>
         </uc-file-uploader-regular>
         <button type="submit">Submit</button>
+
+        <!-- Nur für Debugging --> 
         <code>
             <pre id="form-output"></pre>
         </code>
     </form> 
 
     <h3>Arbeiten:</h3>
+    <div id="gallery"></div>
     <div id="texte">
         <p class="k5 mat hidden" name="arbeit" data-author="piller"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
         <p class="k5 deu hidden" name="arbeit" data-author="hohn">Test 2</p>
@@ -115,16 +117,45 @@
         <p class="k6 fra hidden" name="arbeit" data-author="bauer1">Test 6</p>
     </div>
    <script type="module">
-      import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js";
-      LR.defineComponents(LR);
-      const form = document.querySelector("form");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const outputEl = document.querySelector("#form-output");
-        outputEl.innerText = JSON.stringify([...formData.entries()], null, 2);
-      });
+        import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js";
+        LR.defineComponents(LR);
+        const form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const klasse = formData.get("klasse");
+            const fach = formData.get("fach");
+            const lehrer = formData.get("lehrer");
+            const url = formData.get("my-uploader[]")
+            const uuid = url.replace("https://ucarecdn.com/", "").replace("/", "");
+            appendImage(url, 'gallery', uuid, klasse, fach, lehrer);
+            console.log("Klasse:", klasse);
+            console.log("Fach:", fach);
+            console.log("Lehrer:", lehrer);
+            console.log("Link:", url);
+            // Nur für Debugging
+            const outputEl = document.querySelector("#form-output");
+            outputEl.innerText = JSON.stringify([...formData.entries()], null, 2);
+        });
+
+        function appendImage(imageSource, Id, imageId, klasse, fach, lehrer) {
+            var img = document.createElement("IMG");
+            img.src = imageSource;
+            img.setAttribute('id', imageId);
+            img.classList.add(klasse, fach, "hidden");
+            img.setAttribute('data-author', lehrer);
+            document.getElementById(Id).appendChild(img);
+            return imageId;
+        }
+
+        function removeImage(imageId) {
+            var elementToBeRemoved = document.getElementById(imageId);
+            elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
+        }
+
+
+        
     </script>
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
