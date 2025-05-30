@@ -63,13 +63,13 @@
     <form id="upload-file">
         <label for="klasse">Klasse:</label><br />
         <select name="klasse" id="klasse" form="upload-file">
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
+            <option value="k5">5</option>
+            <option value="k6">6</option>
+            <option value="k7">7</option>
+            <option value="k8">8</option>
+            <option value="k9">9</option>
+            <option value="k10">10</option>
+            <option value="k11">11</option>
         </select>
         <select name="fach" id="fach">
             <option value="mat">Mathe</option>
@@ -99,11 +99,6 @@
             <uc-form-input ctx-name="my-uploader"></uc-form-input>
         </uc-file-uploader-regular>
         <button type="submit">Submit</button>
-
-        <!-- Nur für Debugging --> 
-        <code>
-            <pre id="form-output"></pre>
-        </code>
     </form> 
 
     <h3>Arbeiten:</h3>
@@ -127,24 +122,25 @@
             const klasse = formData.get("klasse");
             const fach = formData.get("fach");
             const lehrer = formData.get("lehrer");
-            const url = formData.get("my-uploader[]")
-            const uuid = url.replace("https://ucarecdn.com/", "").replace("/", "");
-            appendImage(url, 'gallery', uuid, klasse, fach, lehrer);
+            const url = formData.getAll("my-uploader[]")
+            url.forEach((url) => {
+                // Hier wird die URL verarbeitet und das Bild in die Galerie eingefügt
+                const uuid = url.replace("https://ucarecdn.com/", "").replace("/", "");
+                appendImage(url, 'gallery', uuid, klasse, fach, lehrer);
+            });
+            // Nur für Debugging
             console.log("Klasse:", klasse);
             console.log("Fach:", fach);
             console.log("Lehrer:", lehrer);
             console.log("Link:", url);
-            // Nur für Debugging
-            const outputEl = document.querySelector("#form-output");
-            outputEl.innerText = JSON.stringify([...formData.entries()], null, 2);
         });
-
         function appendImage(imageSource, Id, imageId, klasse, fach, lehrer) {
             var img = document.createElement("IMG");
             img.src = imageSource;
             img.setAttribute('id', imageId);
             img.classList.add(klasse, fach, "hidden");
             img.setAttribute('data-author', lehrer);
+            img.setAttribute('name', 'arbeit');
             document.getElementById(Id).appendChild(img);
             return imageId;
         }
