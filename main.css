@@ -7,6 +7,13 @@
             margin: 0 15px;
             padding: 0;
         }
+        img#lmg-bild {
+            margin: 0;
+            padding: 0;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
         .hidden {
             display: none;
         }
@@ -28,41 +35,9 @@
             padding: 10px;
             margin: 0;
         }
-        h2#login {
-            padding: 0;
-            margin: 0;
-        }
-        h2#login a {
-            float: right;
-            color: grey;
-            text-decoration: none;
-            padding: 10px;
-            margin: 0;
-        }
-        h2#login a:hover {
-            color: rgb(79, 78, 78);
-        }
         div.container {
             text-align: center;
             background-color: rgba(17, 79, 17, 0.884);
             padding: 0;
             margin: 0;
-        }
-        ul#main {
-            padding: 0;
-            margin: 0;
-        }
-        ul#main li {
-            display: inline-block;
-            text-align: center;
-            padding: 15px;
-            margin: 0;
-        }
-        ul#main li a {
-            color: rgb(96, 186, 156);
-            text-align: center;
-            padding: 15px;
-        }
-        ul#main li a:hover {
-            color: aqua;
         }
