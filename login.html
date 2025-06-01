@@ -6,13 +6,20 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <h2 id="title">Lise Meitner Gymansium</h2>
-    <h1>Login</h1>
-    <p><h3>Gebe hier deinen Usernamen sowie das Passwort ein:</h3></p>
-    <input type="text" id="user" placeholder="username">
-    <input type="password" id="pwrd" placeholder="password">
-    <p><h3 class="hidden" id="invalid">Falsches Passwort oder Username!</h3></p>
-    <p><button id="weiter" class="hidden" onclick="location.href='index.html'">Zur Homepage</button></p>
+    <div class="logo-schrift">
+        <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
+        <h1 id="title">Klassenarbeiten des LMG</h1>
+    </div>
+
+    <section class="main-content">
+        <h1>Login</h1>
+        <p><h3>Gebe hier deinen Usernamen sowie das Passwort ein:</h3></p>
+        <input type="text" id="user" placeholder="username">
+        <input type="password" id="pwrd" placeholder="password">
+        <p><h3 class="hidden" id="invalid">Falsches Passwort oder Username!</h3></p>
+        <p><button id="weiter" class="hidden" onclick="location.href='index.html'">Zur Homepage</button></p>
+    </section>
+    
     <script>
         const korrekteUsernames = ["user1", "user2", "user3"];
         const korrektesPasswort = "test123";
