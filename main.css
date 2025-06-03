@@ -35,6 +35,9 @@
             width: fit-content;
             height: fit-content;
         }
+        ul#fileList li {
+            margin-bottom: 5px;
+        }
         button {
             background-color: #0044cc;
             color: white;

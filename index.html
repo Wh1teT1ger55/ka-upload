@@ -48,84 +48,28 @@
         <label><input type="checkbox" class="fach" value="gesch">Geschichte</label>
     </p>
 
+    <div id="uploadSection"></div>
     <h1>UPLOAD YOUR FILES HERE!</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        <label for="document">Document</label>
-        <input type="file" name="document">
-        <button>Submit</button>
+    <form id="uploadForm">
+        <label for="document">Datei hochladen:</label>
+        <input type="file" name="document" id="document" required>
+        <button type="submit">Hochladen</button>
     </form>
+    <p id="uploadStatus"></p>
 
     <h1>Arbeiten:</h1>
-    <div id="texte">
-        <p class="k5 mat hidden" name="arbeit" data-lehrer="piller" data-thema="Thema1"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
-        <p class="k5 deu hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema2">Test 2</p>
-        <p class="k5 eng hidden" name="arbeit" data-lehrer="bauer1" data-thema="Thema3">Test 3</p>
-        <p class="k5 eng hidden" name="arbeit" data-lehrer="bauer1" data-thema="Thema4">Test 4</p>
-        <p class="k10 mat hidden" name="arbeit" data-lehrer="bauer2" data-thema="Thema5">Test 5</p>
-        <p class="k10 deu hidden" name="arbeit" data-lehrer="piller" data-thema="Thema6">Test 6</p>
-        <p class="k6 fra hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema7">Test 7</p>
+    <div id="fileListSection" class="hidden">
+        <h2>Verfügbare Klassenarbeiten</h2>
+        <ul id="fileList"></ul>
     </div>
     </section>
     <script>
-        const klasseRadios = document.querySelectorAll('.klasse');
-        const fachCheckboxes = document.querySelectorAll('.fach');
-        const texte = document.querySelectorAll('#texte p');
-
-        let aktiveKlasse = null;
-
-        const lehrerMap = {
-            "piller": "Herr Piller",
-            "hohn": "Frau Hohn",
-            "bauer1": "Herr Bauer (der Alte)",
-            "bauer2": "Herr Bauer (der Neue)"
-        }
-
-        // Klassen-Filter (erster Schritt)
-        klasseRadios.forEach(radio => {
-            radio.addEventListener('change', () => {
-            aktiveKlasse = radio.value;
-            updateAnzeige();
-            });
+        document.addEventListener("DOMContentLoaded", () => {
+            if (document.getElementById("fileList")) {
+                ladeDateien();
+            }
         });
-
-        // Fächer-Filter (zweiter Schritt)
-        fachCheckboxes.forEach(cb => {
-            cb.addEventListener('change', updateAnzeige);
-        });
-        
-        function updateAnzeige() {
-            const aktiveFaecher = Array.from(fachCheckboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-
-            document.querySelectorAll('.arbeit-wrapper').forEach(el => el.remove());
-
-            texte.forEach(p => {
-                const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
-                const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
-                p.classList.add('hidden');
-
-                if (passtZurKlasse && passtZuFach) {
-                    const wrapper = document.createElement("div");
-                    wrapper.classList.add("arbeit-wrapper");
-
-                    const lehrer = document.createElement("p");
-                    const thema = document.createElement("p");
-                    lehrer.classList.add("beschreibung");
-                    thema.classList.add("beschreibung");
-                    lehrer.textContent = "Lehrer: " + (lehrerMap[p.getAttribute("data-lehrer")] || "unbekannt");
-                    thema.textContent = "Thema: " + (p.getAttribute("data-thema") || "unbekannt");
-
-                    const clone = p.cloneNode(true);
-                    clone.classList.remove("hidden");
-
-                    wrapper.appendChild(clone);
-                    wrapper.appendChild(lehrer);
-                    wrapper.appendChild(thema);
-                    p.parentElement.appendChild(wrapper);
-                } 
-            });
-        }
-  </script>
+    </script>
+    <script src="main.js"></script>
 </body>
 </html>
