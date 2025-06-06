@@ -141,6 +141,8 @@
             img.classList.add(klasse, fach, "hidden");
             img.setAttribute('data-author', lehrer);
             img.setAttribute('name', 'arbeit');
+            img.setAttribute('width', '200px');
+            img.setAttribute('onclick', 'window.open(this.src)');
             document.getElementById(Id).appendChild(img);
             return imageId;
         }
@@ -156,7 +158,6 @@
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');
-        const texte = document.querySelectorAll('#texte p');
 
         let aktiveKlasse = null;
 
@@ -184,24 +185,25 @@
             const aktiveFaecher = Array.from(fachCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value);
-
-            texte.forEach(p => {
-                const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
-                const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
-                const nextElem = p.nextElementSibling;
+        
+        const gallery = document.querySelectorAll('#gallery img');
+            gallery.forEach(img => {
+                const passtZurKlasse = aktiveKlasse && img.classList.contains(aktiveKlasse);
+                const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => img.classList.contains(fach));
+                const nextElem = img.nextElementSibling;
                 if (nextElem && nextElem.classList.contains("beschreibung")) {
                     nextElem.remove();
                 }
 
             if (passtZurKlasse && passtZuFach) {
-                p.classList.remove('hidden');
-                const beschreibung = document.createElement("p");
-                beschreibung.classList.add("beschreibung");
-                beschreibung.textContent = "Lehrer: " + (autorMap[p.getAttribute("data-author")] || "unbekannt");
-                p.insertAdjacentElement("afterend", beschreibung);
+                img.classList.remove('hidden');
+                // const beschreibung = document.createElement("p");
+                // beschreibung.classList.add("beschreibung");
+                // beschreibung.textContent = "Lehrer: " + (autorMap[p.getAttribute("data-author")] || "unbekannt");
+                // p.insertAdjacentElement("afterend", beschreibung);
             } 
             else {
-                p.classList.add('hidden');
+                img.classList.add('hidden');
             }
             });
         }
