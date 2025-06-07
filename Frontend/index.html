@@ -5,7 +5,7 @@
     <title>LMG Klassenarbeiten</title>
     <link rel="stylesheet" href="main.css">
 </head>
-<body>
+<body onload="ladeDateien()">
     <div class="logo-schrift">
         <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
         <h1 id="title">Klassenarbeiten des LMG</h1>
@@ -64,12 +64,82 @@
     </div>
     </section>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (document.getElementById("fileList")) {
-                ladeDateien();
+        document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const fileInput = document.getElementById("document");
+            const formData = new FormData();
+            formData.append("document", fileInput.files[0]);
+
+            const token = localStorage.getItem("authToken");
+            const res = await fetch("/upload", {
+                method: "POST",
+                body: formData,
+                credentials: "include"
+            });
+
+            const result = await res.json();
+            document.getElementById("uploadStatus").textContent = result.success
+                ? "Upload erfolgreich!"
+                : "Upload fehlgeschlagen.";
+            });
+
+            async function ladeDateien() {
+                const token = localStorage.getItem("authToken");
+                if (!token) {
+                    // Wenn kein Token vorhanden ist, wird der Nutzer zur Login-Seite umgeleitet.
+                    window.location.href = "/login";
+                    return;
+                }
+
+            const res = await fetch("/files", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Das Token wird im Authorization-Header gesendet. Beachte, dass dein Backend 'Bearer' erwartet.
+                    "Authorization": "Bearer " + token
+                },
+                credentials: "include"
+            });
+            if (res.ok) {
+                const data = await res.json();
+                const list = document.getElementById("fileList");
+                list.innerHTML = "";
+                data.files.forEach(f => {
+                    const li = document.createElement("li");
+                    const btn = document.createElement("button");
+                    btn.textContent = "Download: " + f;
+                    btn.onclick = async () => {
+                        const fileRes = await fetch(`/uploads/${f}`, {
+                            method: "GET",
+                            headers: {
+                                "Authorization": "Bearer " + token
+                            }
+                        });
+
+                        if (fileRes.ok) {
+                            const blob = await fileRes.blob();
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = filename;
+                            a.click();
+                            URL.revokeObjectURL(url);
+                        } 
+                        else {
+                            alert("Download fehlgeschlagen oder keine Berechtigung.");
+                        }
+                    };
+
+                    li.appendChild(btn);
+                    list.appendChild(li);
+                });
             }
-        });
+            else {
+                //Sofern Token ungültig wird User zur Login Seite geschickt
+                window.location.href = "/login";
+            }
+        }
     </script>
-    <script src="main.js"></script>
 </body>
 </html>
