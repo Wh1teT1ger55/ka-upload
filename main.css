@@ -3,6 +3,7 @@
             padding: 0;
             margin: 0;
         }
+<<<<<<< HEAD
         section#main-content {
             margin: 0 15px;
             padding: 0;
@@ -23,6 +24,11 @@
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
         }
+=======
+        .hidden {
+            display: none;
+        }
+>>>>>>> upload-function
         h2#title {
             color: grey;
             padding: 10px;
