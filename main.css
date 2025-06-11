@@ -5,6 +5,7 @@
             color: #333;
             line-height: 1.6;
         }
+<<<<<<< HEAD
         h1 {
             color: #333;
         }
@@ -21,6 +22,11 @@
         }
         img#lmg-bild {
             margin: 0;
+=======
+<<<<<<< HEAD
+        section#main-content {
+            margin: 0 15px;
+>>>>>>> main
             padding: 0;
             display: block;
             width: 100%;
@@ -62,7 +68,16 @@
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
         }
+<<<<<<< HEAD
         h1#title {
+=======
+=======
+        .hidden {
+            display: none;
+        }
+>>>>>>> upload-function
+        h2#title {
+>>>>>>> main
             color: grey;
             padding: 10px;
             margin: 0;
