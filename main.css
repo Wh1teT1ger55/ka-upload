@@ -5,7 +5,6 @@
             color: #333;
             line-height: 1.6;
         }
-<<<<<<< HEAD
         h1 {
             color: #333;
         }
@@ -22,14 +21,19 @@
         }
         img#lmg-bild {
             margin: 0;
-=======
-<<<<<<< HEAD
-        section#main-content {
-            margin: 0 15px;
->>>>>>> main
             padding: 0;
             display: block;
             width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        section#main-content {
+            margin: 0;
+            padding: 0 15px;
+            display: block;
+            width: auto;
             height: auto;
             background: white;
             border-radius: 12px;
@@ -68,16 +72,7 @@
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
         }
-<<<<<<< HEAD
         h1#title {
-=======
-=======
-        .hidden {
-            display: none;
-        }
->>>>>>> upload-function
-        h2#title {
->>>>>>> main
             color: grey;
             padding: 10px;
             margin: 0;
@@ -87,4 +82,15 @@
             background-color: rgba(17, 79, 17, 0.884);
             padding: 0;
             margin: 0;
+        }
+        uc-file-uploader-minimal {
+            width: 300px;
+            height: 100px;
+        }
+        #upload-file select {
+            width: auto;
+            height: 30px;
+            border-color:#f7f7f7e0;
+            border-radius:5px;
+            background-color: #f0f0f0;
         }

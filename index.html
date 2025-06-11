@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMG Klassenarbeiten</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.css">
 </head>
 <body>
     <div class="logo-schrift">
@@ -59,8 +59,8 @@
       img-only
     ></uc-config>   
     <form id="upload-file">
-        <label for="klasse">Klasse:</label><br />
         <select name="klasse" id="klasse" form="upload-file">
+            <option value="">--Klasse--</option>
             <option value="k5">5</option>
             <option value="k6">6</option>
             <option value="k7">7</option>
@@ -70,6 +70,7 @@
             <option value="k11">11</option>
         </select>
         <select name="fach" id="fach">
+            <option value="">--Fach--</option>
             <option value="mat">Mathe</option>
             <option value="deu">Deutsch</option>
             <option value="eng">Englisch</option>
@@ -86,6 +87,7 @@
             <option value="gesch">Geschichte</option>
         </select>
         <select name="lehrer" id="lehrer">
+            <option value="">--Lehrer--</option>
             <option value="piller">Herr Piller</option>
             <option value="hohn">Frau Hohn</option>
             <option value="bauer1">Herr Bauer (der Alte)</option>
@@ -93,9 +95,8 @@
         </select>
 
         <!-- Uploadcare File Uploader -->
-        <uc-file-uploader-regular ctx-name="my-uploader">
-            <uc-form-input ctx-name="my-uploader"></uc-form-input>
-        </uc-file-uploader-regular>
+        <uc-file-uploader-minimal ctx-name="my-uploader" class="uc-light"></uc-file-uploader-minimal>
+        <uc-upload-ctx-provider ctx-name="my-uploader"></uc-upload-ctx-provider>
         <button type="submit">Submit</button>
     </form> 
 
@@ -111,8 +112,9 @@
         <p class="k6 fra hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema7">Test 7</p>
     </div>
    <script type="module">
-        import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js";
-        LR.defineComponents(LR);
+        import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.js';
+        UC.defineComponents(UC);
+
         const form = document.querySelector("form");
         form.addEventListener("submit", (e) => {
             e.preventDefault();
