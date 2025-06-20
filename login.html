@@ -6,9 +6,12 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="logo-schrift">
-        <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
-        <h1 id="title">Klassenarbeiten des LMG</h1>
+    <div class="top-bar">
+        <div class="logo-schrift">
+            <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
+            <h1 id="title">Klassenarbeiten des LMG</h1>
+        </div>
+        <label class="darkmode-toggle-label">Darkmode<input type="checkbox" id="darkmode-toggle"></label>
     </div>
 
     <section class="main-content">
@@ -20,6 +23,16 @@
         <p><button id="weiter" class="hidden" onclick="location.href='index.html'">Zur Homepage</button></p>
     </section>
     
+    <script>
+        const toggle = document.getElementById("darkmode-toggle");
+        const target = document.documentElement;
+
+        toggle.addEventListener("click", switchMode);
+
+        function switchMode() {
+            target.classList.toggle("dark");
+        }
+    </script>
     <script>
         const korrekteUsernames = ["user1", "user2", "user3"];
         const korrektesPasswort = "test123";

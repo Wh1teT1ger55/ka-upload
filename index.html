@@ -6,9 +6,12 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="logo-schrift">
-        <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
-        <h1 id="title">Klassenarbeiten des LMG</h1>
+    <div class="top-bar">
+        <div class="logo-schrift">
+            <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
+            <h1 id="title">Klassenarbeiten des LMG</h1>
+        </div>
+        <label class="darkmode-toggle-label">Darkmode<input type="checkbox" id="darkmode-toggle"></label>
     </div>
 
     <img src="https://www.lmg-remseck.de/themes/lmgbootstrap/bg.jpg" id="lmg-bild">
@@ -66,6 +69,17 @@
         <p class="k6 fra hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema7">Test 7</p>
     </div>
     </section>
+
+    <script>
+        const toggle = document.getElementById("darkmode-toggle");
+        const target = document.documentElement;
+
+        toggle.addEventListener("click", switchMode);
+
+        function switchMode() {
+            target.classList.toggle("dark");
+        }
+    </script>
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');

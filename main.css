@@ -1,75 +1,168 @@
+:root {
+    --bg-color: #ffffff;
+    --input-bg: #ffffff;
+    --text-color: #000000;
+    --input-text: #000000;
+    --primary: #007bff;
+    --primary-hover: #0056b3;
+    --heading-color: #333333;
+    --card-bg: #ffffff;
+    --card-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    --image-bg: #ffffff;
+    --border-color: #270847;
+    --input-border: #cccccc;
+    --note-color: darkgray;
+    --title-color: grey;
+    --highlight-bg: rgba(17, 79, 17, 0.884);
+    --input-placeholder: #666666;
+}
 
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: #f7f7f7;
-            color: #333;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #333;
-        }
-        section.main-content {
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        div.logo-schrift {
-            display: flex;
-            flex-wrap: nowrap;
-        }
-        img#lmg-bild {
-            margin: 0;
-            padding: 0;
-            display: block;
-            width: 100%;
-            height: auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        img#logo {
-            padding: 10px;
-            margin: 0;
-            width: fit-content;
-            height: fit-content;
-        }
-        button {
-            background-color: #0044cc;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #002a80;
-        }
-        .hidden {
-            display: none;
-        }
-        .beschreibung {
-            font-style: italic;
-            color: darkgray;
-            margin-top: 2px;
-            margin-bottom: 15px;
-	    }
-        .arbeit-wrapper {
-            border: 2px solid #270847;
-            padding: 10px;
-            margin: 15px 0;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-        }
-        h1#title {
-            color: grey;
-            padding: 10px;
-            margin: 0;
-        }
-        div.container {
-            text-align: center;
-            background-color: rgba(17, 79, 17, 0.884);
-            padding: 0;
-            margin: 0;
-        }
+.dark {
+    --bg-color: #121212;
+    --input-bg: #1E1E1E;
+    --text-color: #E0E0E0;
+    --input-text: #E0E0E0;
+    --primary: #00BCD4;
+    --primary-hover: #26D7E7;
+    --heading-color: #E0E0E0;
+    --card-bg: #1E1E1E;
+    --card-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    --image-bg: #1E1E1E;
+    --border-color: #673AB7;
+    --input-border: #444444;
+    --note-color: #A0A0A0;
+    --title-color: #BBBBBB;
+    --highlight-bg: rgba(34, 139, 34, 0.6);
+    --input-placeholder: #AAAAAA;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1 {
+    color: var(--heading-color);
+}
+
+section.main-content {
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo-schrift {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.darkmode-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#darkmode-toggle {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+img#lmg-bild {
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--image-bg);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+img#logo {
+    padding: 10px;
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+#user, #pwrd {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    padding: 10px;
+    margin: 8px auto;
+    display: inline;
+    width: 100%;
+    max-width: 350px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input::placeholder {
+  color: var(--input-placeholder);
+}
+
+button {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+.klasse, .fach {
+    gap: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.beschreibung {
+    font-style: italic;
+    color: var(--note-color);
+    margin-top: 2px;
+    margin-bottom: 15px;
+}
+
+.arbeit-wrapper {
+    border: 2px solid var(--border-color);
+    padding: 10px;
+    margin: 15px 0;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+}
+
+h1#title {
+    color: var(--title-color);
+    padding: 10px;
+    margin: 0;
+}
+
+div.container {
+    text-align: center;
+    background-color: var(--highlight-bg);
+    padding: 0;
+    margin: 0;
+}
