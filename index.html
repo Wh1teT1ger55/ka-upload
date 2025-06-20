@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMG Klassenarbeiten</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.css">
 </head>
 <body>
     <div class="top-bar">
@@ -51,14 +52,59 @@
         <label><input type="checkbox" class="fach" value="gesch">Geschichte</label>
     </p>
 
-    <h1>UPLOAD YOUR FILES HERE!</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        <label for="document">Document</label>
-        <input type="file" name="document">
-        <button>Submit</button>
-    </form>
+    <h1>Dateien Hochladen</h1>
+    <uc-config
+      ctx-name="my-uploader"
+      pubkey="39df1b37835506464216"
+      multiple
+      multiple-min="1"
+      multiple-max="10"
+      img-only
+    ></uc-config>   
+    <form id="upload-file">
+        <select name="klasse" id="klasse" form="upload-file">
+            <option value="">--Klasse--</option>
+            <option value="k5">5</option>
+            <option value="k6">6</option>
+            <option value="k7">7</option>
+            <option value="k8">8</option>
+            <option value="k9">9</option>
+            <option value="k10">10</option>
+            <option value="k11">11</option>
+        </select>
+        <select name="fach" id="fach">
+            <option value="">--Fach--</option>
+            <option value="mat">Mathe</option>
+            <option value="deu">Deutsch</option>
+            <option value="eng">Englisch</option>
+            <option value="lat">Latein</option>
+            <option value="fra">Französisch</option>
+            <option value="spa">Spanisch</option>
+            <option value="nwt">NWT</option>
+            <option value="phy">Physik</option>
+            <option value="che">Chemie</option>
+            <option value="bio">Biologie</option>
+            <option value="geo">Geographie</option>
+            <option value="wbs">Wirtschaft und Recht</option>
+            <option value="gk">Gesellschaftskunde</option>
+            <option value="gesch">Geschichte</option>
+        </select>
+        <select name="lehrer" id="lehrer">
+            <option value="">--Lehrer--</option>
+            <option value="piller">Herr Piller</option>
+            <option value="hohn">Frau Hohn</option>
+            <option value="bauer1">Herr Bauer (der Alte)</option>
+            <option value="bauer2">Herr Bauer (der Neue)</option>
+        </select>
 
-    <h1>Arbeiten:</h1>
+        <!-- Uploadcare File Uploader -->
+        <uc-file-uploader-minimal ctx-name="my-uploader" class="uc-light"></uc-file-uploader-minimal>
+        <uc-upload-ctx-provider ctx-name="my-uploader"></uc-upload-ctx-provider>
+        <button type="submit">Submit</button>
+    </form> 
+
+    <h3>Arbeiten:</h3>
+    <div id="gallery"></div>
     <div id="texte">
         <p class="k5 mat hidden" name="arbeit" data-lehrer="piller" data-thema="Thema1"><a href="/C:/Users/lukas/Documents/Schule/Englisch/fertig/Tyroller-Lukas-Englisch-Workbook p.45.pdf" target="_blank">Test-Datei</a></p>
         <p class="k5 deu hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema2">Test 2</p>
@@ -69,7 +115,51 @@
         <p class="k6 fra hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema7">Test 7</p>
     </div>
     </section>
+    <script type="module">
+        import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.js';
+        UC.defineComponents(UC);
 
+        const form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const klasse = formData.get("klasse");
+            const fach = formData.get("fach");
+            const lehrer = formData.get("lehrer");
+            const url = formData.getAll("my-uploader[]")
+            url.forEach((url) => {
+                // Hier wird die URL verarbeitet und das Bild in die Galerie eingefügt
+                const uuid = url.replace("https://ucarecdn.com/", "").replace("/", "");
+                appendImage(url, 'gallery', uuid, klasse, fach, lehrer);
+            });
+            // Nur für Debugging
+            console.log("Klasse:", klasse);
+            console.log("Fach:", fach);
+            console.log("Lehrer:", lehrer);
+            console.log("Link:", url);
+        });
+        function appendImage(imageSource, Id, imageId, klasse, fach, lehrer) {
+            var img = document.createElement("IMG");
+            img.src = imageSource;
+            img.setAttribute('id', imageId);
+            img.classList.add(klasse, fach, "hidden");
+            img.setAttribute('data-author', lehrer);
+            img.setAttribute('name', 'arbeit');
+            img.setAttribute('width', '200px');
+            img.setAttribute('onclick', 'window.open(this.src)');
+            document.getElementById(Id).appendChild(img);
+            return imageId;
+        }
+
+        function removeImage(imageId) {
+            var elementToBeRemoved = document.getElementById(imageId);
+            elementToBeRemoved.parentNode.removeChild(elementToBeRemoved);
+        }
+
+
+        
+    </script>
     <script>
         const toggle = document.getElementById("darkmode-toggle");
         const target = document.documentElement;
@@ -83,11 +173,10 @@
     <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');
-        const texte = document.querySelectorAll('#texte p');
 
         let aktiveKlasse = null;
 
-        const lehrerMap = {
+        const autorMap = {
             "piller": "Herr Piller",
             "hohn": "Frau Hohn",
             "bauer1": "Herr Bauer (der Alte)",
