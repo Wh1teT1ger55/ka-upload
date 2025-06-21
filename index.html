@@ -176,7 +176,7 @@
 
         let aktiveKlasse = null;
 
-        const autorMap = {
+        const lehrerMap = {
             "piller": "Herr Piller",
             "hohn": "Frau Hohn",
             "bauer1": "Herr Bauer (der Alte)",
@@ -203,6 +203,7 @@
 
             document.querySelectorAll('.arbeit-wrapper').forEach(el => el.remove());
 
+            const texte = document.querySelectorAll('#texte p');
             texte.forEach(p => {
                 const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
                 const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
