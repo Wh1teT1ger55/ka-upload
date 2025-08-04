@@ -4,28 +4,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMG Klassenarbeiten</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.css">
 </head>
 <body>
-
-    <h2 id="title">Lise Meitner Gymansium</h2>
-    <!--Wie es scheint ist das Menu nicht von Nöten, ich habs jetzt aber erst mal drin gelassen-->
-    <div class="container">
-        <ul id="main">
-            <li><a href="#fach">Fächer</a></li>
-            <li><a href="#lehrer">Lehrer</a></li>
-        </ul>
+    <div class="top-bar">
+        <div class="logo-schrift">
+            <img src="https://www.lmg-remseck.de/sites/default/files/logo/lmg-logo-42.png" id="logo">
+            <h1 id="title">Klassenarbeiten des LMG</h1>
+        </div>
+        <label class="darkmode-toggle-label">Darkmode<input type="checkbox" id="darkmode-toggle"></label>
     </div>
-    
+
+    <img src="https://www.lmg-remseck.de/themes/lmgbootstrap/bg.jpg" id="lmg-bild">
     <section id="main-content">
-    <h2>Über diese Seite</h2>
+    <h1>Über diese Seite</h1>
     <p>
-        Diese Seite wurde von Schülern des LMGs entworfen und beinhaltet sämtliche alte Klassenarbeiten von Lehrern. 
+       Diese Seite wurde von Schülern des LMGs entworfen und beinhaltet sämtliche alte Klassenarbeiten von Lehrern. 
        Manche Arbeiten werden von Lehrern mehrmals verwendet, darum können diese teilweise hilfreich für kommende Arbeiten sein, 
        wobei nicht garantiert werden kann, dass die Arbeiten auf dieser Website genau so wieder drankommen werden. 
        Sofern man Schüler des LMGs ist und eine Klassenarbeit zuhause hat, die noch nicht auf der Website zu finden ist, dann kann diese hier hochgeladen werden.
     </p>
-    <h3>Klasse:</h3>
+    <h1>Klasse:</h1>
     <p>
         <label><input type="radio" name="klasse" class="klasse" value="k5">5</label>
         <label><input type="radio" name="klasse" class="klasse" value="k6">6</label>
@@ -35,7 +34,7 @@
         <label><input type="radio" name="klasse" class="klasse" value="k10">10</label>
     </p>
 
-    <h3>Fach:</h3>
+    <h1>Fach:</h1>
     <p>
         <label><input type="checkbox" class="fach" value="mat">Mathe</label>
         <label><input type="checkbox" class="fach" value="deu">Deutsch</label>
@@ -63,8 +62,8 @@
       img-only
     ></uc-config>   
     <form id="upload-file">
-        <label for="klasse">Klasse:</label><br />
-        <select name="klasse" id="klasse" form="upload-file">
+        <select name="klasse" id="klasse" form="upload-file" class="upload-select">
+            <option value="">--Klasse--</option>
             <option value="k5">5</option>
             <option value="k6">6</option>
             <option value="k7">7</option>
@@ -73,7 +72,8 @@
             <option value="k10">10</option>
             <option value="k11">11</option>
         </select>
-        <select name="fach" id="fach">
+        <select name="fach" id="fach" class="upload-select">
+            <option value="">--Fach--</option>
             <option value="mat">Mathe</option>
             <option value="deu">Deutsch</option>
             <option value="eng">Englisch</option>
@@ -89,7 +89,8 @@
             <option value="gk">Gesellschaftskunde</option>
             <option value="gesch">Geschichte</option>
         </select>
-        <select name="lehrer" id="lehrer">
+        <select name="lehrer" id="lehrer" class="upload-select">
+            <option value="">--Lehrer--</option>
             <option value="piller">Herr Piller</option>
             <option value="hohn">Frau Hohn</option>
             <option value="bauer1">Herr Bauer (der Alte)</option>
@@ -97,9 +98,8 @@
         </select>
 
         <!-- Uploadcare File Uploader -->
-        <uc-file-uploader-regular ctx-name="my-uploader">
-            <uc-form-input ctx-name="my-uploader"></uc-form-input>
-        </uc-file-uploader-regular>
+        <uc-file-uploader-minimal ctx-name="my-uploader" class="uc-light"></uc-file-uploader-minimal>
+        <uc-upload-ctx-provider ctx-name="my-uploader"></uc-upload-ctx-provider>
         <button type="submit">Submit</button>
     </form> 
 
@@ -114,9 +114,11 @@
         <p class="k10 deu hidden" name="arbeit" data-lehrer="piller" data-thema="Thema6">Test 6</p>
         <p class="k6 fra hidden" name="arbeit" data-lehrer="hohn" data-thema="Thema7">Test 7</p>
     </div>
-   <script type="module">
-        import * as LR from "https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-regular.min.js";
-        LR.defineComponents(LR);
+    </section>
+    <script type="module">
+        import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1/web/uc-file-uploader-minimal.min.js';
+        UC.defineComponents(UC);
+
         const form = document.querySelector("form");
         form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -159,12 +161,22 @@
         
     </script>
     <script>
+        const toggle = document.getElementById("darkmode-toggle");
+        const target = document.documentElement;
+
+        toggle.addEventListener("click", switchMode);
+
+        function switchMode() {
+            target.classList.toggle("dark");
+        }
+    </script>
+    <script>
         const klasseRadios = document.querySelectorAll('.klasse');
         const fachCheckboxes = document.querySelectorAll('.fach');
 
         let aktiveKlasse = null;
 
-        const autorMap = {
+        const lehrerMap = {
             "piller": "Herr Piller",
             "hohn": "Frau Hohn",
             "bauer1": "Herr Bauer (der Alte)",
@@ -191,6 +203,7 @@
 
             document.querySelectorAll('.arbeit-wrapper').forEach(el => el.remove());
 
+            const texte = document.querySelectorAll('#texte p');
             texte.forEach(p => {
                 const passtZurKlasse = aktiveKlasse && p.classList.contains(aktiveKlasse);
                 const passtZuFach = aktiveFaecher.length === 0 || aktiveFaecher.some(fach => p.classList.contains(fach));
